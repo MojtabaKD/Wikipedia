@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#۱۴٬۳۵۸ members of the "رده:صفحه‌های دارای ارجاع با متغیر تک" category now! 21 december 2021 2:20 PM
+#۱۴٬۳۵۸ members of the "رده:صفحه‌های دارای ارجاع با متغیر تکراری" category now! 21 december 2021 2:20 PM
 #released under MIT License (which I don't know it exactly yet!)
 
 import pywikibot
