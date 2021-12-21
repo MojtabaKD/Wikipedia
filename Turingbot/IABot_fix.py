@@ -35,69 +35,6 @@ for curr_page in PAGES:
     ind = []
 
     for match in re.finditer(r'(\{\{یادکرد وب)([^\}\{]*?)(\|\s*archive[-]?url\s*=\s*)([^\s\|\}]*)([^\}\{]*?)(\|\s*تاریخ بایگانی\s*=\s*)([^\|\}]*)([^\}\{]*?)(\|\s*پیوند بایگانی\s*=\s*)([^\s\|\}]*)([^\}\{]*?\}\})', text):
-        #This is a code for testing the capturing groups:
-        
-        # print(str(match)+"+++++++")
-        
-        # try:
-            # print(str(match.group(1))+"------1-")
-        # except IndexError:
-            # print("1 doesn't exist-------")
-        
-        # try:
-            # print(str(match.group(2))+"------2-")
-        # except IndexError:
-            # print("2 doesn't exist-------")
-        
-        # try:
-            # print(str(match.group(3))+"------3-")
-        # except IndexError:
-            # print("3 doesn't exist-------")
-        
-        # try:
-            # print(str(match.group(4))+"------4-")
-        # except IndexError:
-            # print("4 doesn't exist-------")
-        
-        # try:
-            # print(str(match.group(5))+"------5-")
-        # except IndexError:
-            # print("5 doesn't exist-------")
-        
-        # try:
-            # print(str(match.group(6))+"------6-")
-        # except IndexError:
-            # print("6 doesn't exist-------")
-        
-        # try:
-            # print(str(match.group(7))+"------7-")
-        # except IndexError:
-            # print("7 doesn't exist-------")
-        
-        # try:
-            # print(str(match.group(8))+"------8-")
-        # except IndexError:
-            # print("8 doesn't exist-------")
-        
-        # try:
-            # print(str(match.group(9))+"------9-")
-        # except IndexError:
-            # print("9 doesn't exist-------")
-        
-        # try:
-            # print(str(match.group(10))+"-----10-")
-        # except IndexError:
-            # print("10 doesn't exist-------")
-        
-        # try:
-            # print(str(match.group(11))+"-----11-")
-        # except IndexError:
-            # print("11 doesn't exist-------")
-        
-        # print("^^^^^^^")
-        # print(len(match.groups()))
-        # print("^^^^^^^")
-        
         ind.append((match.start(), match.end(), match.span(6), match.span(7), match.span(9), match.span(10)))
         
 
