@@ -36,8 +36,7 @@ for curr_page in PAGES:
 
     for match in re.finditer(r'(\{\{یادکرد وب)([^\}\{]*?)(\|\s*archive[-]?url\s*=\s*)([^\s\|\}]*)([^\}\{]*?)(\|\s*تاریخ بایگانی\s*=\s*)([^\|\}]*)([^\}\{]*?)(\|\s*پیوند بایگانی\s*=\s*)([^\s\|\}]*)([^\}\{]*?\}\})', text):
         ind.append((match.start(), match.end(), match.span(6), match.span(7), match.span(9), match.span(10)))
-        
-
+    
     if len(ind)>0:
         tmp = text[0:ind[0][0]]
         i = 0
