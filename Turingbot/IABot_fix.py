@@ -12,13 +12,13 @@ import wikitextparser as wtp
 
 cat = pywikibot.Category(pywikibot.Site("fa"),
                          "رده:صفحه‌های دارای ارجاع با متغیر تکراری")
-# gen = pagegenerators.CategorizedPageGenerator(cat)
-# pgen = pagegenerators.PreloadingGenerator(gen)
+gen = pagegenerators.CategorizedPageGenerator(cat)
+pgen = pagegenerators.PreloadingGenerator(gen)
 
 site = pywikibot.Site('fa', 'wikipedia')
 
-pgen = []
-pgen.append(pywikibot.Page(site, 'کاربر:Mojtabakd/صفحه تمرین'))
+# pgen = []
+# pgen.append(pywikibot.Page(site, 'کاربر:Mojtabakd/صفحه تمرین'))
 
 edit_limit = 1000
 edit_counter = 0
