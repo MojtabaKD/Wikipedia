@@ -17,7 +17,7 @@ pgen = pagegenerators.PreloadingGenerator(gen)
 
 site = pywikibot.Site('fa', 'wikipedia')
 
-edit_limit = 10
+edit_limit = 1000
 edit_counter = 0
 
 for curr_page in pgen:
@@ -49,8 +49,11 @@ for curr_page in pgen:
         tmp = tmp.replace(old_templates[i], new_templates[i])
 
     if (tmp != curr_page.text):
-        edit_counter += 1
-        curr_page.put(tmp, "حذف پارامتر تکراری در الگوی «یادکرد وب»")
+        try:
+            edit_counter += 1
+            curr_page.put(tmp, "حذف پارامتر تکراری در الگوی «یادکرد وب»")
+        except pywikibot.exceptions.LockedPageError:
+            print(curr_page.title()+" is locked!")
 
     if (edit_counter >= edit_limit):
         break
