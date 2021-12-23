@@ -35,54 +35,59 @@ for curr_page in pgen:
     new_templates = []
 
     for template in parsed.templates:
-        if (template.name.strip() == 'یادکرد وب'):
-            args_names = []
+        try:
+            if (template.name.strip() == 'یادکرد وب'):
+                args_names = []
 
-            for arg in template.arguments:
-                args_names.append(arg.name.strip())
+                for arg in template.arguments:
+                    args_names.append(arg.name.strip())
 
-            dup_accessdates = list(accessdate.intersection(set(args_names)))
+                dup_accessdates = \
+                    list(accessdate.intersection(set(args_names)))
 
-            if ((('archiveurl' in args_names) or
-                    ('archive-url' in args_names)) and
-                    ('پیوند بایگانی' in args_names) and
-                    ('تاریخ بایگانی' in args_names) and
-                    (len(dup_accessdates) > 1)):
+                if ((('archiveurl' in args_names) or
+                        ('archive-url' in args_names)) and
+                        ('پیوند بایگانی' in args_names) and
+                        ('تاریخ بایگانی' in args_names) and
+                        (len(dup_accessdates) > 1)):
 
-                old_templates.append(str(template))
-                template.del_arg('پیوند بایگانی')
-                template.del_arg('تاریخ بایگانی')
+                    old_templates.append(str(template))
+                    template.del_arg('پیوند بایگانی')
+                    template.del_arg('تاریخ بایگانی')
 
-                for access in dup_accessdates:
-                    if ((('accessdate' in dup_accessdates) or
-                        ('access-date' in dup_accessdates)) and not
-                       (access in ['access-date', 'accessdate'])):
-                        template.del_arg(access)
+                    for access in dup_accessdates:
+                        if ((('accessdate' in dup_accessdates) or
+                            ('access-date' in dup_accessdates)) and not
+                           (access in ['access-date', 'accessdate'])):
+                            template.del_arg(access)
 
-                new_templates.append(str(template))
+                    new_templates.append(str(template))
 
-            elif ((('archiveurl' in args_names) or
-                    ('archive-url' in args_names)) and
-                    ('پیوند بایگانی' in args_names) and
-                    ('تاریخ بایگانی' in args_names) and
-                    len(dup_accessdates) <= 1):
+                elif ((('archiveurl' in args_names) or
+                        ('archive-url' in args_names)) and
+                        ('پیوند بایگانی' in args_names) and
+                        ('تاریخ بایگانی' in args_names) and
+                        len(dup_accessdates) <= 1):
 
-                old_templates.append(str(template))
-                template.del_arg('پیوند بایگانی')
-                template.del_arg('تاریخ بایگانی')
-                new_templates.append(str(template))
+                    old_templates.append(str(template))
+                    template.del_arg('پیوند بایگانی')
+                    template.del_arg('تاریخ بایگانی')
+                    new_templates.append(str(template))
 
-            elif (len(dup_accessdates) >= 2):
-                # I have added this case for special rare cases
-                old_templates.append(str(template))
+                elif (len(dup_accessdates) >= 2):
+                    # I have added this case for special rare cases
+                    old_templates.append(str(template))
 
-                for access in dup_accessdates:
-                    if ((('accessdate' in dup_accessdates) or
-                        ('access-date' in dup_accessdates)) and not
-                       (access in ['access-date', 'accessdate'])):
-                        template.del_arg(access)
+                    for access in dup_accessdates:
+                        if ((('accessdate' in dup_accessdates) or
+                            ('access-date' in dup_accessdates)) and not
+                           (access in ['access-date', 'accessdate'])):
+                            template.del_arg(access)
 
-                new_templates.append(str(template))
+                    new_templates.append(str(template))
+
+        except Exception as e:
+            print("Error: {0}".format(e))
 
     tmp = curr_page.text
 
