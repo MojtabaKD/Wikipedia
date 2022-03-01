@@ -3,8 +3,7 @@
 # released under MIT License
 # This code is executed by user:Turingbot which belongs
 # to the user:Mojtabakd on fawiki
-# Upgraded according to user:Huji suggestions:
-# https://fa.wikipedia.org/w/index.php?title=&oldid=33780764
+# removing wrong pixel parameters in infobox of some pages
 
 import pywikibot
 from pywikibot import pagegenerators
