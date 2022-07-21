@@ -35,17 +35,17 @@ for curr_page in pgen:
         # out.write("\n" + "#"*10 + "Article "
         # + str(edit_counter+1) + "#"*10 +"\n")
 
-        patoob = False
+        patoop = False
 
         for temp in parsed.templates:
             if ('پتوپ' == temp.name.strip()):
-                patoob = True
-                patoob_args = []
+                patoop = True
+                patoop_args = []
                 for arg in temp.arguments:
                     parsed_arg_val = wtp.parse(arg.value.strip())
                     for temp_arg in parsed_arg_val.templates:
-                        patoob_args.append(temp_arg.name.strip())
-                if ('ویکی‌پروژه اسلام' not in patoob_args):
+                        patoop_args.append(temp_arg.name.strip())
+                if ('ویکی‌پروژه اسلام' not in patoop_args):
                     old_page = curr_page.text
                     new_arg_name = str(len(temp.arguments)+1)
                     wikiproject_template = '{{' + wikiproject_name
@@ -61,7 +61,7 @@ for curr_page in pgen:
                     curr_page.put(new_page, "افزودن مقاله به "
                                   + wikiproject_name)
 
-        if not patoob:
+        if not patoop:
             # if curr_page.exists():
             wikiproject_template = '{{پتوپ|{{' + wikiproject_name
             + '|کلاس=|خودکار=|نیازمند تصویر='
