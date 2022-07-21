@@ -8,7 +8,8 @@
 import pywikibot
 import wikitextparser as wtp
 
-list_file = open('Persian List of Articles-Pure-Dups Removed-Talk ns.txt', 'r')
+list_file = open('Persian List of Articles-Pure-Dups' +
+                 ' Removed-Talk ns-2.txt', 'r')
 Lines = list_file.readlines()
 
 pgen = []
@@ -20,14 +21,18 @@ for line in Lines:
 # pgen = []
 # pgen.append(pywikibot.Page(site, 'کاربر:Mojtabakd/صفحه تمرین'))
 
-edit_limit = 5
+edit_limit = 4000
 edit_counter = 0
+
+counter = 0
 
 out = open("out.txt", "a")
 
 wikiproject_name = "ویکی‌پروژه اسلام"
 
 for curr_page in pgen:
+    counter += 1
+    print(counter)
     if edit_counter < edit_limit:
         parsed = wtp.parse(curr_page.text)
 
@@ -52,8 +57,7 @@ for curr_page in pgen:
                         '|کلاس=|خودکار=|نیازمند تصویر=' + \
                         '|نیازمند جعبه اطلاعات=|اهمیت=}}'
                     old_temp = str(temp)
-                    temp.set_arg(name=new_arg_name,
-                                 value=wikiproject_template, positional=True)
+                    temp.set_arg(name=new_arg_name, value=wikiproject_template)
                     new_temp = str(temp)
                     new_page = old_page.replace(old_temp, new_temp)
                     # out.write(new_page)
@@ -63,7 +67,7 @@ for curr_page in pgen:
 
         if not patoop:
             # if curr_page.exists():
-            wikiproject_template = '{{پتوپ|{{' + wikiproject_name + \
+            wikiproject_template = '{{پتوپ|1={{' + wikiproject_name + \
                 '|کلاس=|خودکار=|نیازمند تصویر=' + \
                 '|نیازمند جعبه اطلاعات=|اهمیت=}}}}\n'
             new_page = wikiproject_template + curr_page.text
