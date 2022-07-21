@@ -49,8 +49,8 @@ for curr_page in pgen:
                     old_page = curr_page.text
                     new_arg_name = str(len(temp.arguments)+1)
                     wikiproject_template = '{{' + wikiproject_name + \
-                      '|کلاس=|خودکار=|نیازمند تصویر=' + \
-                      '|نیازمند جعبه اطلاعات=|اهمیت=}}'
+                        '|کلاس=|خودکار=|نیازمند تصویر=' + \
+                        '|نیازمند جعبه اطلاعات=|اهمیت=}}'
                     old_temp = str(temp)
                     temp.set_arg(name=new_arg_name,
                                  value=wikiproject_template, positional=True)
@@ -64,8 +64,8 @@ for curr_page in pgen:
         if not patoop:
             # if curr_page.exists():
             wikiproject_template = '{{پتوپ|{{' + wikiproject_name + \
-              '|کلاس=|خودکار=|نیازمند تصویر=' + \
-              '|نیازمند جعبه اطلاعات=|اهمیت=}}}}\n'
+                '|کلاس=|خودکار=|نیازمند تصویر=' + \
+                '|نیازمند جعبه اطلاعات=|اهمیت=}}}}\n'
             new_page = wikiproject_template + curr_page.text
             # out.write(new_page)
             edit_counter += 1
