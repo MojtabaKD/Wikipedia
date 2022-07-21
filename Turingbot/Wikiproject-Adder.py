@@ -58,13 +58,14 @@ for curr_page in pgen:
                             '|کلاس=|خودکار=|نیازمند تصویر=' + \
                             '|نیازمند جعبه اطلاعات=|اهمیت=}}'
                         old_temp = str(temp)
-                        temp.set_arg(name=new_arg_name, value=wikiproject_template)
+                        temp.set_arg(name=new_arg_name,
+                                     value=wikiproject_template)
                         new_temp = str(temp)
                         new_page = old_page.replace(old_temp, new_temp)
                         # out.write(new_page)
                         edit_counter += 1
                         curr_page.put(new_page, "افزودن مقاله به "
-                                  + wikiproject_name)
+                                      + wikiproject_name)
             except Exception as e:
                 print("Error: {0}".format(e))
 
