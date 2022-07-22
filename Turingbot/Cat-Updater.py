@@ -6,7 +6,6 @@
 # It updates categories in a list of pages given by a file
 
 import pywikibot
-import wikitextparser as wtp
 import re
 
 update_list = open('test.txt', 'r')
@@ -26,26 +25,27 @@ for line in upd_lines:
 # pgen = []
 # pgen.append(pywikibot.Page(site_fa, 'کاربر:Mojtabakd/صفحه تمرین'))
 
-edit_limit = 4000
+edit_limit = 10
 edit_counter = 0
 
 counter = 0
 
 out = open("out.txt", "a")
 
+
 # pywikibot's categories() isn't helpful here, becuase
 # it returns extra unneeded categories. So we define:
 def GetCats(src, lang):
-    if lang=="en":
+    if lang == "en":
         cat = "category"
-    elif lang=="fa":
+    elif lang == "fa":
         cat = "رده"
-    
+
     pattern = r'\[\[[^:\[\]]*?' + cat + r'[^:\[\]]*?:[^:\[\]]*?\]\]'
     cats = re.findall(pattern, src, flags=re.I)
 
     stripped = []
-    
+
     for x in cats:
         tmp = re.sub(r"\[\[", "", x)
         tmp = re.sub(r"\]\]", "", tmp)
@@ -53,11 +53,12 @@ def GetCats(src, lang):
         stripped.append(tmp)
 
     stripped.sort()
-    
+
     for x in stripped:
-        print('x='+x)
-    
+        print('x=' + x)
+
     return stripped
+
 
 for curr_page in pgen:
     eng_cats = []
@@ -66,15 +67,16 @@ for curr_page in pgen:
     no_fa_exists = []
     fa_cats_final = []
     if curr_page.exists():
-        print("="*10+curr_page.title()+"="*10)
-        
+        counter += 1
+        print("="*10 + curr_page.title() + "="*10 + str(counter))
+
         page_is_conn = False
 
         try:
             curr_page_item = pywikibot.ItemPage.fromPage(curr_page)
             engtitle = curr_page_item.getSitelink('enwiki')
             page_is_conn = True
-        except Exception as e:
+        except Exception:
             print('Page is not connected.')
 
         if page_is_conn:
@@ -85,9 +87,9 @@ for curr_page in pgen:
                 if cat.exists():
                     eng_cats.append(cat.title())
                 else:
-                    print("#"*10+cat.title()+"#"*10)
+                    print("#"*10 + cat.title() + "#"*10)
                     print('Eng cat doesn\'t exists')
-            
+
             # Now fetch the corresponding fawiki titles
             # of the english categories of the page if ...
             for x in eng_cats:
@@ -96,7 +98,7 @@ for curr_page in pgen:
                     x_item = pywikibot.ItemPage.fromPage(x_page)
                     fatitle = x_item.getSitelink('fawiki')
                     eng_cats_trans.append(fatitle)
-                except Exception as e:
+                except Exception:
                     print("The \"" + x + "\" is not created in fawiki.")
 
             # now we determine which categories of fawiki page
@@ -110,13 +112,13 @@ for curr_page in pgen:
                         # now we can be sure that it has a corresponding
                         # category on english wikipedia are connected
                         # but we don't need to keep track of them here
-                    except Exception as e:
+                    except Exception:
                         # But we need to keep local cats to exclude them from
                         # update of fawiki page categories, since we don't know
                         # right now if those are in the correct page or not
                         loc_cats.append(cat.title())
                 else:
-                    print("#"*10+cat.title()+"#"*10)
+                    print("#"*10 + cat.title() + "#"*10)
                     print('Fa cat doesn\'t exists')
 
     else:
@@ -126,7 +128,7 @@ for curr_page in pgen:
     for x in eng_cats_trans:
         if x not in loc_cats:
             fa_cats_final.append(x)
-            print("fa_cats_final="+x)
+            print("fa_cats_final=" + x)
 
     cats_list = []
     cats_text = ""
@@ -143,12 +145,16 @@ for curr_page in pgen:
         cats_text += "[[" + x + "]]\n"
 
     old_page_txt = curr_page.text
-    new_page_text = re.sub(r"\[\[[^\[\]:]*?رده:[^\[\]]*?\]\]", "", old_page_txt, flags=re.I)
+    new_page_text = re.sub(r"\[\[[^\[\]:]*?رده:[^\[\]]*?\]\]",
+                           "", old_page_txt, flags=re.I)
     new_page_text = re.sub(r"\n\s*\n$", "", old_page_txt, flags=re.M)
     new_page_text += cats_text
 
     # out = open("out.txt", "a")
     # out.write(new_page_text)
     # out.close()
-    
-    curr_page.put(new_page, "بروزرسانی آزمایشی رده‌ها")
+
+    if edit_counter < edit_limit:
+        edit_counter += 1
+        print("edit number=" + edit_counter)
+        curr_page.put(new_page_text, "بروزرسانی آزمایشی رده‌ها")
