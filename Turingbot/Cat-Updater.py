@@ -65,7 +65,7 @@ for curr_page in pgen:
     loc_cats = []
     eng_cats_trans = []
     no_fa_exists = []
-    fa_cats_final = []
+
     if curr_page.exists():
         counter += 1
         print("="*10 + curr_page.title() + "="*10 + str(counter))
@@ -125,30 +125,34 @@ for curr_page in pgen:
         print("*"*10+curr_page.title()+"*"*10)
         print('Page doesn\'t exists')
 
+    fa_cats_final = []
+
     for x in eng_cats_trans:
         if x not in loc_cats:
             fa_cats_final.append(x)
             print("fa_cats_final=" + x)
 
     cats_list = []
-    cats_text = ""
 
     for x in fa_cats_final:
         cats_list.append(x)
 
     for x in loc_cats:
+        print("loc_cats=" + x)
         cats_list.append(x)
 
     cats_list.sort()
+    cats_text = ""
 
     for x in cats_list:
         cats_text += "[[" + x + "]]\n"
+        print("cats_list=" + x)
 
     old_page_txt = curr_page.text
     new_page_text = re.sub(r"\[\[[^\[\]:]*?رده:[^\[\]]*?\]\]",
-                           "", old_page_txt, flags=re.I)
-    new_page_text = re.sub(r"\n\s*\n$", "", old_page_txt, flags=re.M)
-    new_page_text += cats_text
+                           "", old_page_txt)
+    new_page_text = re.sub(r"\n\s*\n$", "", new_page_text, flags=re.M)
+    new_page_text += '\n' + cats_text
 
     # out = open("out.txt", "a")
     # out.write(new_page_text)
