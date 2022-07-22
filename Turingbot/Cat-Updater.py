@@ -49,13 +49,15 @@ def GetCats(src, lang):
     for x in cats:
         tmp = re.sub(r"\[\[", "", x)
         tmp = re.sub(r"\]\]", "", tmp)
-        tmp = re.sub(r"\|.*", "", tmp)
-        stripped.append(tmp)
+
+        cat_groups = re.search(r"([^\|]*)\|?(.*)", tmp)
+        cat_g1 = cat_groups.group(1).strip()
+        cat_g2 = cat_groups.group(2).strip()
+        splitter[cat_g1] = cat_g2
+
+        stripped.append(cat_g1)
 
     stripped.sort()
-
-    for x in stripped:
-        print('x=' + x)
 
     return stripped
 
@@ -65,6 +67,7 @@ for curr_page in pgen:
     loc_cats = []
     eng_cats_trans = []
     no_fa_exists = []
+    splitter = {}
 
     if curr_page.exists():
         counter += 1
@@ -130,7 +133,6 @@ for curr_page in pgen:
     for x in eng_cats_trans:
         if x not in loc_cats:
             fa_cats_final.append(x)
-            print("fa_cats_final=" + x)
 
     cats_list = []
 
@@ -138,15 +140,17 @@ for curr_page in pgen:
         cats_list.append(x)
 
     for x in loc_cats:
-        print("loc_cats=" + x)
         cats_list.append(x)
 
     cats_list.sort()
     cats_text = ""
 
     for x in cats_list:
-        cats_text += "[[" + x + "]]\n"
-        print("cats_list=" + x)
+        if (x in splitter):
+            if len(splitter[x]) > 0:
+                cats_text += "[[" + x + "|" + splitter[x] + "]]\n"
+            else:
+                cats_text += "[[" + x + "]]\n"
 
     old_page_txt = curr_page.text
     new_page_text = re.sub(r"\[\[[^\[\]:]*?رده:[^\[\]]*?\]\]",
