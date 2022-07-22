@@ -113,8 +113,8 @@ for curr_page in pgen:
                         curr_cat_item = pywikibot.ItemPage.fromPage(cat)
                         engcat = curr_cat_item.getSitelink('enwiki')
                         # now we can be sure that it has a corresponding
-                        # category on english wikipedia are connected
-                        # but we don't need to keep track of them here
+                        # category on english wikipedia which is connected
+                        # to it, but we don't need to keep track of them here
                     except Exception:
                         # But we need to keep local cats to exclude them from
                         # update of fawiki page categories, since we don't know
@@ -141,6 +141,7 @@ for curr_page in pgen:
 
     for x in loc_cats:
         cats_list.append(x)
+        print("loc_cats=" + x)
 
     cats_list.sort()
     cats_text = ""
