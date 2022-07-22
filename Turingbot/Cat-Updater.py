@@ -151,6 +151,8 @@ for curr_page in pgen:
                 cats_text += "[[" + x + "|" + splitter[x] + "]]\n"
             else:
                 cats_text += "[[" + x + "]]\n"
+        else:
+            cats_text += "[[" + x + "]]\n"
 
     old_page_txt = curr_page.text
     new_page_text = re.sub(r"\[\[[^\[\]:]*?رده:[^\[\]]*?\]\]",
