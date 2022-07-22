@@ -155,6 +155,7 @@ for curr_page in pgen:
     # out.close()
 
     if edit_counter < edit_limit:
-        edit_counter += 1
-        print("edit number=" + edit_counter)
-        curr_page.put(new_page_text, "بروزرسانی آزمایشی رده‌ها")
+        if new_page_text != old_page_txt:
+            edit_counter += 1
+            print("edit number=" + str(edit_counter))
+            curr_page.put(new_page_text, "بروزرسانی آزمایشی رده‌ها")
