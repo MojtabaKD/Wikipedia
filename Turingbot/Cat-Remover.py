@@ -168,7 +168,7 @@ for curr_page in pgen:
     new_page_text = re.sub(r"\[\[[^\[\]:]*?رده:[^\[\]]*?\]\]",
                            "", old_page_txt)
     new_page_text = re.sub(r"\n\s*\n$", "", new_page_text, flags=re.M)
-    new_page_text += '\n' + cats_text
+    new_page_text += '\n\n' + cats_text
 
     # out = open("out.txt", "a")
     # out.write(new_page_text)
