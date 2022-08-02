@@ -15,11 +15,11 @@ import pywikibot
 import re
 from pywikibot import pagegenerators
 
-update_list = open('test.txt', 'r')
-upd_lines = update_list.readlines()
+# update_list = open('update_list.txt', 'r')
+# upd_lines = update_list.readlines()
 
-# exclude_list = open('exclude_list.txt', 'r')
-# exc_lines = exclude_list.readlines()
+exclude_list = open('exclude_list.txt', 'r')
+exc_lines = exclude_list.readlines()
 
 pgen = []
 
@@ -141,16 +141,23 @@ for curr_page in pgen:
 
     fa_cats_final = []
 
+    # Adding those eng cats except locals
     for x in eng_cats_trans:
         if x not in loc_cats:
             if x in orig_fa_cats:
                 fa_cats_final.append(x)
+
+    # Taking care of exceptions
+    for x in exc_lines:
+        if x in orig_fa_cats:
+            fa_cats_final.append(x)
 
     cats_list = []
 
     for x in fa_cats_final:
         cats_list.append(x)
 
+    # Taking care of locals
     for x in loc_cats:
         cats_list.append(x)
         print("loc_cats=" + x)
