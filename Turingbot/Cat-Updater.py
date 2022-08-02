@@ -140,7 +140,7 @@ for curr_page in pgen:
     # Adding those eng cats except locals and
     # if it is a cat remover, check if it was
     # in the page before updating
-    if remove:
+    if remover:
         for x in eng_cats_trans:
             if x not in loc_cats:
                 if x in orig_fa_cats:
@@ -199,4 +199,4 @@ for curr_page in pgen:
             if len(new_cats) > 0:
                 edit_counter += 1
                 print("edit number=" + str(edit_counter))
-                curr_page.put(new_page_text, "بروزرسانی رده‌ها")
+                curr_page.put(new_page_text, "حذف آزمایشی رده‌های اضافه")
