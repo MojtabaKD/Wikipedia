@@ -141,7 +141,9 @@ for curr_page in pgen:
 
     fa_cats_final = []
 
-    # Adding those eng cats except locals
+    # Adding those eng cats except locals and
+    # cats which weren't in the page before
+    # since this is cat remover!
     for x in eng_cats_trans:
         if x not in loc_cats:
             if x in orig_fa_cats:
