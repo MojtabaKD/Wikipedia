@@ -7,25 +7,28 @@
 
 import pywikibot
 import re
+from pywikibot import pagegenerators
 
-update_list = open('test.txt', 'r')
-upd_lines = update_list.readlines()
+# update_list = open('update_list.txt', 'r')
+# upd_lines = update_list.readlines()
 
-# exclude_list = open('exclude_list.txt', 'r')
-# exc_lines = exclude_list.readlines()
+exclude_list = open('exclude_list.txt', 'r')
+exc_lines = exclude_list.readlines()
 
 pgen = []
 
 site_fa = pywikibot.Site('fa', 'wikipedia')
 site_en = pywikibot.Site('en', 'wikipedia')
 
-for line in upd_lines:
-    pgen.append(pywikibot.Page(site_fa, line.strip()))
+# for line in upd_lines:
+    # pgen.append(pywikibot.Page(site_fa, line.strip()))
+
+pgen = site_fa.randompages(total=200, namespaces=0, redirects=False)
 
 # pgen = []
 # pgen.append(pywikibot.Page(site_fa, 'کاربر:Mojtabakd/صفحه تمرین'))
 
-edit_limit = 10
+edit_limit = 100
 edit_counter = 0
 
 counter = 0
@@ -66,7 +69,7 @@ for curr_page in pgen:
     eng_cats = []
     loc_cats = []
     eng_cats_trans = []
-    no_fa_exists = []
+    orig_fa_cats = []
     splitter = {}
 
     if curr_page.exists():
@@ -80,6 +83,7 @@ for curr_page in pgen:
             engtitle = curr_page_item.getSitelink('enwiki')
             page_is_conn = True
         except Exception:
+            page_is_conn = False
             print('Page is not connected.')
 
         if page_is_conn:
@@ -107,6 +111,7 @@ for curr_page in pgen:
             # now we determine which categories of fawiki page
             # are local to make an exception for them while updating
             for cat_title in GetCats(curr_page.text, 'fa'):
+                orig_fa_cats.append(cat_title)
                 cat = pywikibot.Category(site_fa, cat_title)
                 if cat.exists():
                     try:
@@ -130,8 +135,15 @@ for curr_page in pgen:
 
     fa_cats_final = []
 
+    # Adding those eng cats except locals
     for x in eng_cats_trans:
         if x not in loc_cats:
+            fa_cats_final.append(x)
+                
+
+    # Taking care of exceptions
+    for x in exc_lines:
+        if x in orig_fa_cats:
             fa_cats_final.append(x)
 
     cats_list = []
@@ -139,6 +151,7 @@ for curr_page in pgen:
     for x in fa_cats_final:
         cats_list.append(x)
 
+    # Taking care of locals
     for x in loc_cats:
         cats_list.append(x)
         print("loc_cats=" + x)
@@ -159,14 +172,22 @@ for curr_page in pgen:
     new_page_text = re.sub(r"\[\[[^\[\]:]*?رده:[^\[\]]*?\]\]",
                            "", old_page_txt)
     new_page_text = re.sub(r"\n\s*\n$", "", new_page_text, flags=re.M)
-    new_page_text += '\n' + cats_text
+    if len(new_page_text) != 0:
+        new_page_text += '\n\n' + cats_text
+    elif len(new_page_text) == 0:
+        new_page_text += cats_text
 
     # out = open("out.txt", "a")
     # out.write(new_page_text)
     # out.close()
 
+    # Detailed check to see if we really need an edition:
+    old_cats = GetCats(curr_page.text, "fa")
+    new_cats = GetCats(new_page_text, "fa")
+
     if edit_counter < edit_limit:
-        if new_page_text != old_page_txt:
-            edit_counter += 1
-            print("edit number=" + str(edit_counter))
-            curr_page.put(new_page_text, "بروزرسانی آزمایشی رده‌ها")
+        if set(old_cats) != set(new_cats):
+            if len(new_cats) > 0:
+                edit_counter += 1
+                print("edit number=" + str(edit_counter))
+                curr_page.put(new_page_text, "بروزرسانی رده‌ها")
