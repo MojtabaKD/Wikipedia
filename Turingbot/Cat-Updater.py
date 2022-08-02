@@ -9,6 +9,8 @@ import pywikibot
 import re
 from pywikibot import pagegenerators
 
+remover = True
+
 # update_list = open('update_list.txt', 'r')
 # upd_lines = update_list.readlines()
 
@@ -135,11 +137,18 @@ for curr_page in pgen:
 
     fa_cats_final = []
 
-    # Adding those eng cats except locals
-    for x in eng_cats_trans:
-        if x not in loc_cats:
-            fa_cats_final.append(x)
-                
+    # Adding those eng cats except locals and
+    # if it is a cat remover, check if it was
+    # in the page before updating
+    if remove:
+        for x in eng_cats_trans:
+            if x not in loc_cats:
+                if x in orig_fa_cats:
+                    fa_cats_final.append(x)
+    else:
+        for x in eng_cats_trans:
+            if x not in loc_cats:
+                fa_cats_final.append(x)
 
     # Taking care of exceptions
     for x in exc_lines:
