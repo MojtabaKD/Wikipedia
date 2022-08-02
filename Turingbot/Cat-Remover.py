@@ -6,13 +6,14 @@
 # I changed the "Cat-Updater.py" to create a new code
 # according to this discussion on persian wikipedia:
 # Special:Permalink/35210341
-# Please note that may add new code here which may
+# Please note that I may add new code here which may
 # not necessarily in "Cat-Updater.py" and are not
 # necessarily directly related to that discussion
 # So... Please consider this code an independent one
 
 import pywikibot
 import re
+from pywikibot import pagegenerators
 
 update_list = open('test.txt', 'r')
 upd_lines = update_list.readlines()
@@ -25,13 +26,15 @@ pgen = []
 site_fa = pywikibot.Site('fa', 'wikipedia')
 site_en = pywikibot.Site('en', 'wikipedia')
 
-for line in upd_lines:
-    pgen.append(pywikibot.Page(site_fa, line.strip()))
+# for line in upd_lines:
+    # pgen.append(pywikibot.Page(site_fa, line.strip()))
+
+pgen = site_fa.randompages(total=100, namespaces=0, redirects=False)
 
 # pgen = []
 # pgen.append(pywikibot.Page(site_fa, 'کاربر:Mojtabakd/صفحه تمرین'))
 
-edit_limit = 10
+edit_limit = 100
 edit_counter = 0
 
 counter = 0
