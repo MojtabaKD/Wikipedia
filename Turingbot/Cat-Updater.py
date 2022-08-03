@@ -2,8 +2,8 @@
 
 # released under MIT License
 # This code is executed by user:Turingbot which belongs
-# to the user:Mojtabakd on fawiki
-# It updates categories in a list of pages given by a file
+# to the user:Mojtabakd on fawiki. It updates categories
+# in a list of pages given by a file or randmoly chosen...
 
 import pywikibot
 import re
