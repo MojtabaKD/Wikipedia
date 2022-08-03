@@ -13,9 +13,11 @@ remover = True
 
 # update_list = open('update_list.txt', 'r')
 # upd_lines = update_list.readlines()
+# update_list.close()
 
 exclude_list = open('exclude_list.txt', 'r')
 exc_lines = exclude_list.readlines()
+exclude_list.close()
 
 pgen = []
 
